@@ -1,5 +1,5 @@
 <?php 
-    class Conexion
+    class Connection
     {
         // <------------------- Atributos --------------------->
         private $dbhost ="localhost"; // dominio del host o ip de la BD
