@@ -65,7 +65,7 @@ CREATE TABLE `rol` (
 --
 
 CREATE TABLE `solicitud` (
-  `idBeneficio` int(255) NOT NULL,
+  `idSolicitud` int(255) NOT NULL,
   `descripcion` text NOT NULL,
   `usuario` varchar(100) NOT NULL,
   `estado` int(255) NOT NULL,
