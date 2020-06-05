@@ -1,0 +1,45 @@
+// body
+body,html
+{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+// header 
+.navbar-nav
+{
+    .nav-item
+    {
+        .nav-link
+        {
+            color: rgba(255, 255, 255, 0.863);
+
+            &.disabled
+            {
+                color: rgba(238, 238, 238, 0.753);
+            }
+        }
+        &.active
+        {
+            .nav-link
+            {
+                color: white;
+                font-weight: bold;
+            }
+        }
+        &.hover
+        {
+            background-color:white;
+            color: #007bff;
+        }
+    }
+}
+// footer
+.footer
+{
+    position: fixed;
+    bottom:0;
+    left:0;
+}
