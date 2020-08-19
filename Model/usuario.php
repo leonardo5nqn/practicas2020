@@ -1,4 +1,5 @@
 <?php 
+    include_once('../Connection/connection.php');
     class Usuario
     {
         // Atributos
@@ -13,8 +14,10 @@
         // Constructor
         private function __construct($nombreDeUsuario, $contrasenia,$rol,$mail)     
         {         
-            $this->setIdRol($idRol);  
-            $this->setDescripcion($descripcion); 
+            $this->setNombreDeUsuario($nombreDeUsuario);
+            $this->setCotnrasenia($contrasenia);
+            $this->setIdRol($rol);  
+            $this->setMail($mail);
         }
 
         // Getters & Setters
@@ -67,6 +70,29 @@
                 $return[]=$rol;
             }
             return $return;
+        }
+        // Buscar uno
+        public static function findOne($search)
+        {
+            $res = Conexion::findOne(self::$tabla, $search);
+            if($res) return $res;
+            else return 0;
+        }
+
+        public static function login($username,$password)
+        {
+            $password=md5($password);
+            $busqueda = "nombreDeUsuario = '{$username}' && contrasenia = '{$password}'";
+            
+            $user=Usuario::findOne($busqueda);
+            echo $user;
+            if($user!=0) return $user['id'];
+            else return False;
+        }
+
+        public static function register($username, $password, $mail)
+        {
+            $usuario = new Usuario($username,$password,'',$mail);
         }
     }
 ?>
