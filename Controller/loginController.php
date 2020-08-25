@@ -6,6 +6,7 @@
         public static function login()
         {
             $user = $_POST['user'];$password = $_POST['password'];
+            echo $user.'   '.$password;
             if($user!="" || $password!="") 
             {
                 $res = Usuario::login($user,$password);
@@ -16,12 +17,17 @@
                     
                 }
             }
-            return JsonResponse::Save(False,'Campos vacios',NULL);
+            else return JsonResponse::Save(False,'Campos vacios',NULL);
         }
 
-        public function register($user, $password, $email)
+        public static function register()
         {
-
+            $user = $_POST['user'];$password = $_POST['password'];$email = $_POST['email'];
+            if($user!="" && $password!="" && $email!="")
+            {
+                $res = Usuario::login($user,md5($password));
+                if($res==True) echo JsonResponse::Save(False,'Usuario ya existe!',$res);
+            }
         }
     }
 

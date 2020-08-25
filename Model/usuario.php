@@ -79,20 +79,30 @@
             else return 0;
         }
 
+        public static function create($username,$password,$rol,$mail)
+        {
+
+        }
+
+        // Métodos Relacionados
         public static function login($username,$password)
         {
             $password=md5($password);
             $busqueda = "nombreDeUsuario = '{$username}' && contrasenia = '{$password}'";
-            
             $user=Usuario::findOne($busqueda);
-            echo $user;
-            if($user!=0) return $user['id'];
+            if($user!=0) return True;
             else return False;
         }
 
         public static function register($username, $password, $mail)
         {
             $usuario = new Usuario($username,$password,'',$mail);
+            $isUser = Usuario::findOne("nombreDeUsuario = '{$username}'");
+            if($isUser!=0) {
+                return True;
+                Usuario::create();
+            }
+            else return False;
         }
     }
 ?>
