@@ -1,35 +1,45 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
     include_once('../Model/usuario.php');
     require_once('./jsonResponse.php');
     class LoginController
     {
-        public static function login()
+        public function login()
         {
             $user = $_POST['user'];$password = $_POST['password'];
-            echo $user.'   '.$password;
             if($user!="" || $password!="") 
             {
                 $res = Usuario::login($user,$password);
-                if($res!=False) return JsonResponse::Save(True,'Usuario logeado con éxito!',$res);
+                if($res==True) return JsonResponse::Save(True,'Usuario logeado con éxito!',$res);
                 else {
-                    echo JsonResponse::Save(False,'Usuario o Contraseña incorrecta',NULL);
                     return JsonResponse::Save(False,'Usuario o Contraseña incorrecta',NULL);
-                    
                 }
             }
             else return JsonResponse::Save(False,'Campos vacios',NULL);
         }
 
-        public static function register()
+        public function register()
         {
-            $user = $_POST['user'];$password = $_POST['password'];$email = $_POST['email'];
+            $user = $_POST['user'];$password = $_POST['password'];$email = $_POST['email'];$rol = 2;
             if($user!="" && $password!="" && $email!="")
             {
-                $res = Usuario::login($user,md5($password));
-                if($res==True) echo JsonResponse::Save(False,'Usuario ya existe!',$res);
+                $rep = Usuario::findOne(" nombreDeUsuario = '{$user}'");
+                echo $rep;
+                if($rep) return JsonResponse::Save(False,'Usuario inválido.',NULL);
+                else {
+                    $usuario = new Usuario($user,$password,$rol,$email);
+                    $res = $usuario->create();
+                    echo $res;
+                    if($res==True) return JsonResponse::Save(True,'Usuario creado con éxito!',$res);
+                    else return JsonResponse::Save(False,'Usuario inválido.',$res);
+                }
             }
+            else return JsonResponse::Save(False,'Campos vacíos.',NULL);
         }
     }
 
-    LoginController::login();
+    $login = new LoginController();
+    $login->login();
 ?>

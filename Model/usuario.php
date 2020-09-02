@@ -12,7 +12,7 @@
         private static $tabla='usuario';
 
         // Constructor
-        private function __construct($nombreDeUsuario, $contrasenia,$rol,$mail)     
+        function __construct($nombreDeUsuario, $contrasenia,$rol,$mail)     
         {         
             $this->setNombreDeUsuario($nombreDeUsuario);
             $this->setCotnrasenia($contrasenia);
@@ -75,34 +75,38 @@
         public static function findOne($search)
         {
             $res = Conexion::findOne(self::$tabla, $search);
-            if($res) return $res;
-            else return 0;
+            if($res!=0) return True;
+            else return False;
         }
 
-        public static function create($username,$password,$rol,$mail)
+        public function create()
         {
-
+            $data = $this->modelToArray();
+            $res = Conexion::insert(self::$tabla, $data);
+            echo $res;
+            if($res!=0) return True;
+            else return False;
         }
 
         // Métodos Relacionados
         public static function login($username,$password)
         {
-            $password=md5($password);
+            $password=$password;//md5($password);
             $busqueda = "nombreDeUsuario = '{$username}' && contrasenia = '{$password}'";
             $user=Usuario::findOne($busqueda);
             if($user!=0) return True;
             else return False;
         }
 
-        public static function register($username, $password, $mail)
+        // datos
+        public function modelToArray()
         {
-            $usuario = new Usuario($username,$password,'',$mail);
-            $isUser = Usuario::findOne("nombreDeUsuario = '{$username}'");
-            if($isUser!=0) {
-                return True;
-                Usuario::create();
-            }
-            else return False;
+            $data = [];
+            $data['nombreDeUsuario'] = $this->getNombreDeUsuario();
+            $data['mail'] = $this->getMail();
+            $data['rol'] = $this->getIdRol();
+            $data['contrasenia'] = $this->getContrasenia();
+            return $data;
         }
     }
 ?>

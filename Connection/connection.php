@@ -82,7 +82,7 @@
             }
             else
             {
-                $return=self::$error;
+                $return=0;//self::$error;
             }
             return $return;
         }
@@ -108,8 +108,9 @@
             $values="";
             foreach ($data as $key => $value)
             {
-                $keys+=$key+',';
-                $values+=$value+',';
+                $keys.="'$key',";                
+                if(is_int($value)==False) $values.="'{$value}',";
+                else $values.="{$value},";
             }
             $query = "INSERT INTO {$table} ({$keys}) VALUES ({$values})";
             if($result = self::$instance->query($query))
