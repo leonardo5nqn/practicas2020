@@ -9,7 +9,7 @@
         public function login()
         {
             $user = $_POST['user'];$password = $_POST['password'];
-            if($user!="" || $password!="") 
+            if($user!="" && $password!="") 
             {
                 $res = Usuario::login($user,$password);
                 if($res==True) return JsonResponse::Save(True,'Usuario logeado con éxito!',$res);

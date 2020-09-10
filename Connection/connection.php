@@ -4,10 +4,10 @@
     {         
         private static $instance = null;
         //AGREGO LA CONEXION A LA BASE DE DATOS        
-        private static $host ="db4free.net:3306";        
-        private static $usuario="practicas2020_po";        
-        private static $pass="admin2020";        
-        private static $nameBD="practicas2020";  
+        private static $host ="localhost";        
+        private static $usuario="root";        
+        private static $pass="";        
+        private static $nameBD="rotary";  
         private static $error="No Encontrado"; 
         // Generar un constructor de conexión tomando las variables de la clase       
         function __construct()         
@@ -75,10 +75,12 @@
             if($result = self::$instance->query($query))
             {
                 $return = array();
+                if($result->num_rows>0)
                 while($obj = $result->fetch_array())
                 {
                     $return[]=$obj;
                 }
+                else $return=0;
             }
             else
             {
