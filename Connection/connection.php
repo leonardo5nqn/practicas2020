@@ -110,10 +110,12 @@
             $values="";
             foreach ($data as $key => $value)
             {
-                $keys.="'$key',";                
+                $keys.="$key,";                
                 if(is_int($value)==False) $values.="'{$value}',";
                 else $values.="{$value},";
             }
+            $keys = substr($keys,0,-1);
+            $values = substr($values,0,-1);
             $query = "INSERT INTO {$table} ({$keys}) VALUES ({$values})";
             if($result = self::$instance->query($query))
             {
