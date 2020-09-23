@@ -64,17 +64,17 @@
         }
 
         // Métodos relacionados con BD
-        /*public static function findAll()
+        public static function findAll()
         {
             $return=array();
             $res = Conexion::findAll(self::$tabla);
             foreach($res as $r)
             {
-                $estado = new Estado($r['idEstado'],$r['descripcion']);
-                $return[]=$estado;
+                $pedido = new Pedido($r['idSolicitud'],$r['descripcion'],$r['usuario'],$r['estado'],$r['validacion']);
+                $return[]=$pedido;
             }
             return $return;
-        }*/
+        }
         public function create()
         {
             $data = $this->modelToArray();
