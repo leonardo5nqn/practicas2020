@@ -40,6 +40,11 @@
         }
     }
 
+
     $login = new LoginController();
-    $login->login();
+    switch($_POST['option'])
+    {
+        case '1': $login->login(); break;
+        case '2': $login->register(); break;
+    }
 ?>

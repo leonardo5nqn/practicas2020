@@ -19,8 +19,21 @@
             }
             else return JsonResponse::Save(False,'Error en la peticion',null);
         }
-    }
 
-    $login = new PedidoController();
-    $login->crearPedido();
+        public function listarPedidos(){
+            if($_POST)
+            {
+                $pedidos = Pedido::findAll();
+                return ($pedidos!=false ? JsonResponse::Save(true,'Listado de pedidos',$pedidos) : JsonResponse::Save(false,'Error en la solicitud',null));
+            }
+        }
+    }
+    $pedido = new PedidoController();
+    switch($_POST['option'])
+    {
+        case '1': $pedido->crearPedido(); break;
+        case '2': $pedido->listarPedidos(); break;
+    }
+    
+    
 ?>

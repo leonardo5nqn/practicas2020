@@ -41,12 +41,10 @@
                 {
                     $return[]=$obj;
                 } 
+                return $return;
             }
-            else
-            {
-                $return=self::$error;
-            }
-            return $return;
+            else return false;
+            
         }
         // funcion generica de la BD para buscar de manera filtrada
         public static function find($table, $search)

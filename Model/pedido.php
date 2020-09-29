@@ -66,14 +66,20 @@
         // Métodos relacionados con BD
         public static function findAll()
         {
-            $return=array();
+            $return=[];
             $res = Conexion::findAll(self::$tabla);
-            foreach($res as $r)
+            if($res!=false)
             {
-                $pedido = new Pedido($r['idSolicitud'],$r['descripcion'],$r['usuario'],$r['estado'],$r['validacion']);
-                $return[]=$pedido;
+                foreach($res as $r)
+                {
+                    $pedido = new Pedido($r['idSolicitud'],$r['descripcion'],$r['usuario'],$r['estado'],$r['validacion']);
+                    $data = $pedido->modelToArray();
+                    $return[]=$data;
+                }
+                return $return;
+                
             }
-            return $return;
+            else return false;
         }
         public function create()
         {
