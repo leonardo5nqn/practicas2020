@@ -75,7 +75,7 @@
         public static function findOne($search)
         {
             $res = Conexion::findOne(self::$tabla, $search);
-            if($res!=0) return True;
+            if($res!=0) return $res;
             else return False;
         }
 
@@ -94,7 +94,7 @@
             $password=$password;//md5($password);
             $busqueda = "nombreDeUsuario = '{$username}' && contrasenia = '{$password}'";
             $user=Usuario::findOne($busqueda);
-            if($user!=0) return True;
+            if($user!=0) return $user;
             else return False;
         }
 

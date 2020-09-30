@@ -12,10 +12,8 @@
             if($user!="" && $password!="") 
             {
                 $res = Usuario::login($user,$password);
-                if($res==True) return JsonResponse::Save(True,'Usuario logeado con éxito!',$res);
-                else {
-                    return JsonResponse::Save(False,'Usuario o Contraseña incorrecta',NULL);
-                }
+                if($res!=false) return JsonResponse::Save(True,'Usuario logeado con éxito!',$res);
+                else return JsonResponse::Save(False,'Usuario o Contraseña incorrecta',NULL);
             }
             else return JsonResponse::Save(False,'Campos vacios',NULL);
         }
