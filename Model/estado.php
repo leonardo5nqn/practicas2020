@@ -1,4 +1,5 @@
 <?php 
+    include_once('../Connection/connection.php');
     class Estado
     {
         // Atributos de la Clase
@@ -6,7 +7,7 @@
         private $descripcion;
 
         // Atributos relacionados con BD
-        private static $tabla;
+        private static $tabla = 'estado';
 
         // Constructor
         private function __construct($idEstado, $descripcion)     
@@ -46,6 +47,13 @@
                 $return[]=$estado;
             }
             return $return;
+        }
+
+        public static function findOne($search)
+        {
+            $res = Conexion::findOne(self::$tabla,$search);
+            if($res!=0) return $res;
+            else return False;
         }
         
     }

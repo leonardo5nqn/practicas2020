@@ -6,19 +6,18 @@
         private $idSolicitud;
         private $descripcion;
         private $usuario;
-        private $estado;
-        private $validacion;
+        private $fechaPedido;
 
         // Atributos relacionados con BD
         private static $tabla='solicitud';
 
         // Constructor
-        public function __construct($descripcion,$usuario,$estado,$validacion)     
-        {         
+        public function __construct($idSolicitud,$descripcion,$usuario,$fechaPedido)     
+        {       
+            $this->setIdSolicitud($idSolicitud);  
             $this->setDescripcion($descripcion); 
             $this->setUsuario($usuario);
-            $this->setEstado($estado);
-            $this->setValidacion($validacion);
+            $this->setFechaPedido($fechaPedido);
         }
 
         // Getters & Setters
@@ -46,21 +45,13 @@
         {
             $this->usuario = $usuario;
         }
-        public function setEstado($estado)
+        public function setFechaPedido($fechaPedido)
         {
-            $this->estado=$estado;
+            $this->fechaPedido=$fechaPedido;
         }
-        public function getEstado()
+        public function getFechaPedido()
         {
-            return $this->estado;
-        }
-        public function setValidacion($validacion)
-        {
-            $this->validacion=$validacion;
-        }
-        public function getValidacion()
-        {
-            return $this->validacion;
+            return $this->fechaPedido;
         }
 
         // Métodos relacionados con BD
@@ -72,7 +63,7 @@
             {
                 foreach($res as $r)
                 {
-                    $pedido = new Pedido($r['idSolicitud'],$r['descripcion'],$r['usuario'],$r['estado'],$r['validacion']);
+                    $pedido = new Pedido($r['idSolicitud'],$r['descripcion'],$r['usuario'],$r['fechaPedido']);
                     $data = $pedido->modelToArray();
                     $return[]=$data;
                 }
@@ -81,6 +72,14 @@
             }
             else return false;
         }
+
+        public static function findOne($search)
+        {
+            $res = Conexion::findOne(self::$tabla, $search);
+            if($res!=0) return $res;
+            else return False;
+        }
+        
         public function create()
         {
             $data = $this->modelToArray();
@@ -95,8 +94,7 @@
             $data['idSolicitud'] = $this->getIdSolicitud();
             $data['descripcion'] = $this->getDescripcion();
             $data['usuario'] = $this->getUsuario();
-            $data['estado'] = $this->getEstado();
-            $data['validacion'] = $this->getValidacion();
+            $data['fechaPedido'] = $this->getFechaPedido();
             return $data;
         }
         

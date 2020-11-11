@@ -2,8 +2,7 @@
     class JsonResponse
     {
         public static function Save($status,$message,$data)
-        {
-            
+        { 
             $res=[];
             $res['status']=$status;
             $res['message']=$message;

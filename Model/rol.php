@@ -1,4 +1,5 @@
-<?php 
+<?php
+    include_once('../Connection/connection.php'); 
     class Rol
     {
         // Atributos
@@ -6,7 +7,7 @@
         private $descripcion;
 
         // Atributos relacionados con DB
-        private static $tabla;
+        private static $tabla = 'rol';
 
         // Constructor
         private function __construct($idRol, $descripcion)     
@@ -46,10 +47,12 @@
             }
             return $return;
         }
-        // Crear uno
-        public static function insert($descripcion)
+
+        public static function findOne($search)
         {
-            
+            $res = Conexion::findOne(self::$tabla,$search);
+            if($res!=0) return $res;
+            else return False;
         }
     }
 ?>

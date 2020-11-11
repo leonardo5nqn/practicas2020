@@ -1,27 +1,25 @@
 <?php 
     include_once('../Connection/connection.php');
+    include_once('./rol.php');
     class Usuario
     {
-        // Atributos
+        private $id;
         private $nombreDeUsuario;
         private $contrasenia;
         private $rol;
         private $mail;
 
-        // Atributos relacionados con DB
         private static $tabla='usuario';
 
-        // Constructor
-        function __construct($nombreDeUsuario, $contrasenia,$rol,$mail)     
+        function __construct($id,$nombreDeUsuario, $contrasenia,$rol,$mail)     
         {         
+            $this->setId($id);
             $this->setNombreDeUsuario($nombreDeUsuario);
-            $this->setCotnrasenia($contrasenia);
-            $this->setIdRol($rol);  
+            $this->setContrasenia($contrasenia);
+            $this->setRol($rol);  
             $this->setMail($mail);
         }
 
-        // Getters & Setters
-        // nombre de usuario
         public function getNombreDeUsuario()
         {
             return $this->nombreDeUsuario;
@@ -30,25 +28,25 @@
         {
             $this->nombreDeUsuario = $nombreDeUsuario;
         }
-        // contraseña de usuario
+    
         public function getContrasenia()
         {
             return $this->contrasenia;
         }
-        public function setCotnrasenia($contrasenia)
+        public function setContrasenia($contrasenia)
         {
             $this->contrasenia = $contrasenia;
         }
-        // rol de usuario
-        public function getIdRol()
+      
+        public function getRol()
         {
-            return $this->idRol;
+            return $this->rol;
         }
-        public function setIdRol($idRol)
+        public function setRol($rol)
         {
-            $this->idRol = $idRol;
+            $this->rol = $rol;
         }
-        // mail de usuario
+      
         public function getMail()
         {
             return $this->mail;
@@ -57,21 +55,27 @@
         {
             $this->mail=$mail;
         }
+        public function getId()
+        {
+            return $this->id;
+        }
+        public function setId($id)
+        {
+            $this->id=$id;
+        }
 
-        // Métodos CRUD
-        // Busca Todos
         public static function findAll()
         {
             $return=array();
             $res=Conexion::findAll(self::$tabla);
             foreach($res as $r)
             {
-                $rol = new Rol($r['idRol'],$r['descripcion']);
+                $rol = new Rol($r['id'],$r['nombreDeUsuario'],$r['contrasenia'],$r['rol'],$r['mail']);
                 $return[]=$rol;
             }
             return $return;
         }
-        // Buscar uno
+       
         public static function findOne($search)
         {
             $res = Conexion::findOne(self::$tabla, $search);
@@ -83,12 +87,18 @@
         {
             $data = $this->modelToArray();
             $res = Conexion::insert(self::$tabla, $data);
-            echo $res;
             if($res!=0) return True;
             else return False;
         }
 
-        // Métodos Relacionados
+        public function update($id)
+        {
+            $data = $this->modelToArray();
+            $res = Conexion::update(self::$tabla,$data,$id);
+            if($res!=0) return True;
+            else return False;
+        }
+
         public static function login($username,$password)
         {
             $password=$password;//md5($password);
@@ -98,13 +108,13 @@
             else return False;
         }
 
-        // datos
         public function modelToArray()
         {
             $data = [];
+            $data['id'] = $this->getId();
             $data['nombreDeUsuario'] = $this->getNombreDeUsuario();
             $data['mail'] = $this->getMail();
-            $data['rol'] = $this->getIdRol();
+            $data['rol'] = $this->getRol();
             $data['contrasenia'] = $this->getContrasenia();
             return $data;
         }
