@@ -4,10 +4,10 @@
     {         
         private static $instance = null;
         //AGREGO LA CONEXION A LA BASE DE DATOS        
-        private static $host ="db4free.net:3306";        
-        private static $usuario="practicas2020_po";        
-        private static $pass="admin2020";        
-        private static $nameBD="practicas2020";  
+        private static $host ="localhost";        
+        private static $usuario="root";        
+        private static $pass="";        
+        private static $nameBD="rotary";  
         private static $error="No Encontrado"; 
         // Generar un constructor de conexión tomando las variables de la clase       
         function __construct()         
@@ -41,12 +41,10 @@
                 {
                     $return[]=$obj;
                 } 
+                return $return;
             }
-            else
-            {
-                $return=self::$error;
-            }
-            return $return;
+            else return false;
+            
         }
         // funcion generica de la BD para buscar de manera filtrada
         public static function find($table, $search)
@@ -75,14 +73,16 @@
             if($result = self::$instance->query($query))
             {
                 $return = array();
+                if($result->num_rows>0)
                 while($obj = $result->fetch_array())
                 {
                     $return[]=$obj;
                 }
+                else $return=0;
             }
             else
             {
-                $return=self::$error;
+                $return=0;//self::$error;
             }
             return $return;
         }
@@ -108,9 +108,12 @@
             $values="";
             foreach ($data as $key => $value)
             {
-                $keys+=$key+',';
-                $values+=$value+',';
+                $keys.="$key,";                
+                if(is_int($value)==False) $values.="'{$value}',";
+                else $values.="{$value},";
             }
+            $keys = substr($keys,0,-1);
+            $values = substr($values,0,-1);
             $query = "INSERT INTO {$table} ({$keys}) VALUES ({$values})";
             if($result = self::$instance->query($query))
             {
