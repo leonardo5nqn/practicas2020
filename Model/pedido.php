@@ -80,6 +80,16 @@
             else return False;
         }
         
+        public function update($id, $data) 
+        {
+            $res = Conexion::findOne(self::$tabla,`Search = ${$id}`);
+            if($res!=false) {
+                $inputData = [];
+                echo $data;
+                $resData = Conexion::update(self::$tabla, $inputData ,$id);
+            } 
+        }
+
         public function create()
         {
             $data = $this->modelToArray();
