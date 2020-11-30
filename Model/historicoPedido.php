@@ -72,9 +72,9 @@
             return $return;
         }
      
-        public static function findOne($search)
+        public static function find($search)
         {
-            $res = Conexion::findOne(self::$tabla, $search);
+            $res = Conexion::find(self::$tabla, $search);
             if($res!=0) return $res;
             else return False;
         }

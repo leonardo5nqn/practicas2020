@@ -1,4 +1,5 @@
 <?php
+    error_reporting(0);
     header('Access-Control-Allow-Origin: *');
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -27,7 +28,7 @@
                 echo $rep;
                 if($rep) return JsonResponse::Save(False,'Usuario inválido.',NULL);
                 else {
-                    $usuario = new Usuario($user,$password,$rol,$email);
+                    $usuario = new Usuario(null,$user,$password,$rol,$email);
                     $res = $usuario->create();
                     echo $res;
                     if($res==True) return JsonResponse::Save(True,'Usuario creado con éxito!',$res);
